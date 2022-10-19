@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Exclude, Transform } from 'class-transformer';
+import { Exclude, Transform, Type } from 'class-transformer';
 import { Document, ObjectId } from 'mongoose';
+import { Address, AddressSchema } from './address.schema';
 
 export type UserDocument = User & Document;
 
@@ -18,6 +19,10 @@ export class User {
   @Prop()
   @Exclude()
   password: string;
+
+  @Prop({ type: AddressSchema })
+  @Type(() => Address)
+  address: Address;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
