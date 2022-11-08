@@ -14,7 +14,11 @@ export class Post {
   @Prop()
   title: string;
 
-  @Prop()
+  @Prop({
+    set: (content: string) => {
+      return content.trim() + 'sosi';
+    },
+  })
   content: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
