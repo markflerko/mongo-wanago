@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
 import RequestWithUser from 'src/authentication/requestWithUser.interface';
+import { PaginationParams } from 'src/utils/paginationParams';
 import ParamsWithId from './dto/id.param';
 import PostDto from './dto/post.dto';
 import { PostsService } from './posts.service';
@@ -20,8 +22,8 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAllPosts() {
-    return this.postsService.findAll();
+  async getAllPosts(@Query() { skip, limit, startId }: PaginationParams) {
+    return this.postsService.findAll(skip, limit, startId);
   }
 
   @Get(':id')

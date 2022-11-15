@@ -50,7 +50,29 @@ export class PostsService {
     return post;
   }
 
-  async findAll() {
-    return this.postModel.find().populate('author');
+  async findAll(
+    documentsToSkip = 0,
+    limitOfDocuments?: number,
+    startId?: string,
+  ) {
+    const findQuery = this.postModel
+      .find({
+        _id: {
+          $gt: startId,
+        },
+      })
+      .sort({ _id: 1 })
+      .skip(documentsToSkip)
+      .populate('author')
+      .populate('categories');
+
+    if (limitOfDocuments) {
+      findQuery.limit(limitOfDocuments);
+    }
+
+    const results = await findQuery;
+    const count = await this.postModel.count();
+
+    return { results, count };
   }
 }
