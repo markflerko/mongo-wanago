@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { FilterQuery, Model } from 'mongoose';
 import { User } from 'src/users/user.schema';
 import PostDto from './dto/post.dto';
 import { Post, PostDocument } from './schemas/post.schema';
@@ -54,7 +54,22 @@ export class PostsService {
     documentsToSkip = 0,
     limitOfDocuments?: number,
     startId?: string,
+    searchQuery?: string,
   ) {
+    const filters: FilterQuery<PostDocument> = startId
+      ? {
+          _id: {
+            $gt: startId,
+          },
+        }
+      : {};
+
+    if (searchQuery) {
+      filters.$text = {
+        $search: searchQuery,
+      };
+    }
+
     const findQuery = this.postModel
       .find({
         _id: {

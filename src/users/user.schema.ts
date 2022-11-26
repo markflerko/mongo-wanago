@@ -58,10 +58,6 @@ export class User {
 
 const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'author',
-});
+UserSchema.index({ firstName: 1, lastName: 1 });
 
 export { UserSchema };

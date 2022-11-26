@@ -14,22 +14,20 @@ export class Post {
   @Prop()
   title: string;
 
-  @Prop({
-    set: (content: string) => {
-      return content.trim() + 'sosi';
-    },
-  })
+  @Prop()
   content: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  @Type(() => User)
-  author: User;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  // @Type(() => User)
+  // author: User;
 
-  @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
-  })
-  // @Type(() => Category)
-  categories: Category[];
+  // @Prop({
+  //   type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
+  // })
+  // // @Type(() => Category)
+  // categories: Category[];
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
+
+PostSchema.index({ title: 'text', content: 'text' });
