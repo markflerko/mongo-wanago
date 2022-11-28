@@ -5,8 +5,8 @@ export class PostDto {
   @IsNotEmpty()
   title: string;
 
-  @IsString()
-  @IsNotEmpty()
+  // @IsString()
+  // @IsNotEmpty()
   content: string;
 }
 

@@ -15,7 +15,7 @@ export class Post {
   title: string;
 
   @Prop()
-  content: string;
+  content?: string;
 
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   // @Type(() => User)

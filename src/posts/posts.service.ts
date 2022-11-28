@@ -23,10 +23,11 @@ export class PostsService {
     }
   }
 
-  async update(id: string, postData: PostDto) {
+  async update(id: string, postData: PostDto, soft = false) {
     const post = await this.postModel
+      // .findOneAndReplace({ _id: id }, postData, { new: true });
       .findByIdAndUpdate(id, postData)
-      .setOptions({ overwrite: true, new: true });
+      .setOptions({ overwrite: !soft, new: true });
     if (!post) {
       throw new NotFoundException();
     }

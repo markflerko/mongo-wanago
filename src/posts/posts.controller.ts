@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -13,8 +14,10 @@ import {
 import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
 import RequestWithUser from 'src/authentication/requestWithUser.interface';
 import { PaginationParams } from 'src/utils/paginationParams';
+import HarshUpdatePostDto from './dto/harshUpdatePost.dto';
 import ParamsWithId from './dto/id.param';
 import PostDto from './dto/post.dto';
+import SoftUpdatePostDto from './dto/softUpdatePost.dto copy';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -46,7 +49,18 @@ export class PostsController {
   }
 
   @Put(':id')
-  async updatePost(@Param() { id }: ParamsWithId, @Body() post: PostDto) {
+  async harshUpdatePost(
+    @Param() { id }: ParamsWithId,
+    @Body() post: HarshUpdatePostDto,
+  ) {
     return this.postsService.update(id, post);
+  }
+
+  @Patch(':id')
+  async updatePost(
+    @Param() { id }: ParamsWithId,
+    @Body() post: SoftUpdatePostDto,
+  ) {
+    return this.postsService.update(id, post, true);
   }
 }
